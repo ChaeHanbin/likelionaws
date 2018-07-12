@@ -1,0 +1,50 @@
+<div class="container">
+    
+    <h1><%= @post.title %></h1><hr />
+    
+    <div style="text-align:right;">
+        <div><%= @post.created_at.to_s.split("+").first %> (<%= time_ago_in_words(@post.created_at) %> ago)</div>
+        <div><%= @post.user.username %></div>
+        <a href="/post/edit/<%= @post.id %>"><span class="badge badge-light">수정</span></a>
+        <a href="/post/destroy/<%= @post.id %>"><span class="badge badge-dark">삭제</span></a>
+    </div>
+    <hr>
+    
+    <!-- size = count = length-->
+    <div><%= @post.liked_users.size %>명이 좋아합니다.</div>
+    <% if current_user.is_like?(@post) %>
+        <a href="/likes/likes_toggle/<%= @post.id %>">좋아요 취소</a>
+        <!--%= link_to "좋아요", likes_likes_toggle_path(@post), method="post" %>-->
+    <% else %>
+        <a href="/likes/likes_toggle/<%= @post.id %>">좋아요</a>
+    <% end %>
+    
+    
+    <p><%= simple_format(@post.content) %></p>
+    
+    <% unless @post.image.nil? %>
+        <%= image_tag @post.image %>
+        <%= image_tag @post.thumb %> <!--파일자체의 크기가 줄어듦-->
+        <%= image_tag @post.middle %>
+    <% end %> <!--db->migrate에 default를 적든 이걸 적든 함. ""과 nil은 다르기 때문 -->
+    <hr></hr>
+    
+    <div style="text-align:right;"><a href="/post/index"><button type="button" class="btn btn-outline-dark">목록</button></a></div>
+    <br>
+    
+    <% @post.replies.each do |r| %> <!-- post의 모든 replies를 하나씩 r(reply model)로 뽑음: 1-n관계 -->
+        <%= r.user.username %>: <%= r.content %>
+        <a href="/reply/destroy/<%= r.id %>"><span class="badge badge-warning">삭제</span></a>
+        <br>
+    <% end %>
+    <br>
+    
+    <form action="/reply/create" method="post">
+        <input name="post_id" value="<%= @post.id %>" hidden="true"></input>
+        <div class="row">
+            <textarea name="content" class="form-control col-11" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <button type="submit" class="btn btn-outline-dark col-1">작성</button>
+        </div>
+    </form>
+    
+</div>
