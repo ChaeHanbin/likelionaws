@@ -1,3 +1,4 @@
+
 <%= render "navbar" %> <br>
 <!--다른 폴더에 있으면 /post/navbar로 경로 지정할 것-->
 <div class="container">
@@ -16,7 +17,7 @@
         <% @post.each do |p| %>
             <tr>
               <th scope="row"><%= p.id %></th>
-              <td><a href="/post/show/<%= p.id %>"><%= p.title %></a></td>
+              <td><a href="/post/show/<#%= p.id %>"><%= p.title %></a></td>
               <td><%= p.user.username%></td>
               <td><%= p.created_at.to_s.split("+").first %></td>
             </tr>
@@ -27,4 +28,109 @@
     
     <div style="text-align:right;"><a href="/post/new"><button type="button" class="btn btn-outline-dark">글쓰기</button></a></div>
 
+
+
+  <% @post.each do |p| %>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="https://s-i.huffpost.com/gen/5177890/thumbs/o-APPLE-570.jpg?3" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"><a href="/post/show/<#%= p.id %>"><%= p.title %></h5>
+        <p class="card-text"><%= p.id %></p>
+        <a href="#" class="btn btn-primary"><%= p.user.username%></a>
+        <div><%= p.created_at.to_s.split("+").first %></div>
+      </div>
+    </div>
+  <% end %>
+
+<div id="enters"></div>
+
 </div>
+
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+
+<script>
+
+  var count = 4; // 처음에 네장만 보여주고 스크롤 할 때 한장씩 추가해서 보여준다.
+  var stringTemp = "";
+  
+  function call(){ // call을 언제 콜하는가? 아래쪽에 닿았을 때
+    $.ajax({ // post ajaxCall로 던저서 4가 ajaxcall의 count가 받는다
+        type:"get",
+        url:"/post/ajaxCall", // post controller의 ajaxCall을 정의해준다
+        data : {'count' : count}, // count를 count로 넘기는거
+        dataType : "json",
+        success: function(data){
+            alert(data["title"]); // title이 넘어옴 
+        },
+        error: function(error) {
+            alert(error);
+        }  
+    });
+
+  }
+  
+  
+  var page = 1; 
+  
+  
+$(window).scroll(function() {
+    if ($(document).height() > $(window).height()) {
+      //console.log(++page);
+      //$("#enters").append("<h1>Page " + page);
+      call();
+      
+    }
+});
+</script>
+
+
+
+
+<!--<button onclick = "hi_1()">hi</button>-->
+<!--<button onclick = "hi_2('꺄', '꾜')">hihi</button>-->
+<!--<br></br>-->
+
+
+<!--<input id = "idv_1"></input>-->
+<!--<button onclick = "add_1()"> + </button>-->
+<!--<input id = "idv_2"></input>-->
+<!--=-->
+<!--<input id = "idr_1"></input>-->
+<!--<br></br>-->
+
+
+<!--<span>1</span>-->
+<!--<button onclick = "add_2(<#%= 1 %>,<%#= 2 %>)">+</button>-->
+<!--<span>2</span>-->
+<!--=-->
+<!--<input id = "idr_2"></input>-->
+
+
+<!--<script>-->
+<!--  function add_2(_val1, _val2){-->
+<!--    document.getElementById("idr_2").value = (_val1 + _val2);-->
+<!--  }-->
+  <!--function add_1(){ // id를 통해 값을 찾아서 반환할 수 있다-->
+<!--    var A = document.getElementById("idv_1").value;-->
+<!--    var B = document.getElementById("idv_2").value;-->
+<!--    var C = Number(A) + Number(B);-->
+<!--    alert(C);-->
+<!--    document.getElementById("idr_1").value = C;-->
+<!--  }-->
+  
+  
+<!--  function hi_1(){-->
+    <!--var A = "hi"; // 변수, 자료형 상관 없음-->
+<!--    var B = 123123 + "a"-->
+    
+<!--  }-->
+  
+  <!--function hi_2(_value, apple){ // 아무 이름이나 쓴다-->
+<!--    alert(_value + " HI! " + apple);-->
+<!--  }-->
+<!--</script>-->

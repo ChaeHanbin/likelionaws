@@ -77,4 +77,10 @@ class PostController < ApplicationController
     
   end
   
+  def ajaxCall
+    count = params[:count].to_i
+    @item = Post.all.at(count) # 모든 post의 해당하는 번지의 것(4번째)을 가져온다
+    @return_val = {"id" => @item.id, "user" => @item.user_id, "title" => @item.title, "time" => @item.created_at}
+    render json: @return_val # json으로 다시 값을 되돌려줌
+  end
 end

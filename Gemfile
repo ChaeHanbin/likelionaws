@@ -28,6 +28,8 @@ gem "fog-aws"
 
 gem 'devise'
 gem 'mini_magick'
+gem 'sqlite3'
+gem 'therubyracer'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -41,7 +43,9 @@ gem 'mini_magick'
 group :development, :test do # 개발하고 테스트할 때만 쓰겠다
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'sqlite3'
+
+  gem 'rails_db' # db보기
+  gem 'hirb' # 콘솔 내에서 테이블을 예쁘게 출력해줌(rails c -> post.all)
 end
 
 group :development do
@@ -53,6 +57,6 @@ group :development do
 end
 
 group :production do
-  gem 'pg', '~> 0.21.0'
-  gem 'rails_12factor'
+  # gem 'pg', '~> 0.21.0'
+  # gem 'rails_12factor'
 end
